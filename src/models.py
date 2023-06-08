@@ -1,6 +1,8 @@
 from .database import Base
 from sqlalchemy import Column, Integer, String, TIMESTAMP, Boolean, ForeignKey, Float
 from sqlalchemy.sql.expression import text
+from sqlalchemy.orm import relationship
+
 
 class User(Base):
     __tablename__ = "users"
@@ -31,3 +33,5 @@ class Order(Base):
     user_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
     product_id = Column(Integer, ForeignKey("products.id", ondelete="CASCADE"), nullable=False)
     created_at = Column(TIMESTAMP(timezone=True), server_default=text("now()"))
+
+    user = relationship("User")

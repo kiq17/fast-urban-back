@@ -13,5 +13,4 @@ def createProduct(product: Product, db: Session = Depends(get_db)):
     db.commit()
     db.refresh(p)
 
-    print()
     return p

@@ -33,7 +33,6 @@ def userLogin(user: Login, db: Session = Depends(get_db)):
 def getUser(db: Session = Depends(get_db)):
 
     users = db.query(models.User).all()
-
     return users
 
 
@@ -78,7 +77,7 @@ def editUser(id: int, user: User, db: Session = Depends(get_db)):
 @router.get("/{id}", response_model=UserRes)
 def getUserId(id: int, db: Session = Depends(get_db)):
     findUser = db.query(models.User).filter(models.User.id == id).first()
-
+    
     if findUser is None:
         raise HTTPException(status_code=404, detail="Usário não existe")
     
