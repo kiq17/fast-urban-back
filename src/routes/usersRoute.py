@@ -65,8 +65,10 @@ def editUser(id: int, user: User, db: Session = Depends(get_db)):
     if findUser is None:
         raise HTTPException(status_code=404, detail="Usário não existe")
     
+    hashedPass = utils.hash(user.senha)
     newUser = user.dict()
     newUser["update_at"] = datetime.now()
+    newUser["senha"] = hashedPass
 
     userQuery.update(newUser, synchronize_session=False)
 
