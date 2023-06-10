@@ -1,10 +1,11 @@
 from fastapi.testclient import TestClient
 from src.main import app
+from .dbTesting import client, session
 import pytest
 
-client = TestClient(app)
 
-def test_getUsers():
+
+def test_getUsers(client):
     res = client.get("/users")
     assert type(res.json()) == type([])
     assert res.status_code == 200
@@ -16,6 +17,6 @@ def test_getUsers():
     (None, None, "123456", 422),
     ("joao","joao@gmail.com", "123456", 201)
 ])
-def test_createUser(nome, email, senha, result):
+def test_createUser(nome, email, senha, result, client):
     res = client.post("/users", json={"email": email, "senha": senha, "nome": nome})
     assert res.status_code == result
