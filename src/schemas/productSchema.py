@@ -3,9 +3,10 @@ from datetime import datetime
 
 class Product(BaseModel):
     nome: str
+    descricao: str
     preco: float
     quantidade: int
-    image_url: str
+    coverImg: str
 
 class ProductRes(Product):
     a_venda: bool
