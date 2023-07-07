@@ -35,3 +35,13 @@ class Order(Base):
     created_at = Column(TIMESTAMP(timezone=True), server_default=text("now()"))
 
     user = relationship("User")
+
+class ProductsImages():
+    __tablename__ = "products_images"
+    
+    id = Column(Integer, primary_key=True, nullable=False)
+    image_url = Column(String, nullable=False)
+    product_id = Column(Integer, ForeignKey("products.id", ondelete="CASCADE"), nullable=False)
+    created_at = Column(TIMESTAMP(timezone=True), server_default=text("now()"))
+
+    product = relationship("Product")
