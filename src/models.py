@@ -19,6 +19,7 @@ class Product(Base):
 
     id = Column(Integer, primary_key=True, nullable=False)
     nome = Column(String, nullable=False)
+    descricao = Column(String, nullable=False)
     preco = Column(Float, nullable=False)
     quantidade = Column(Integer, nullable=False)
     a_venda = Column(Boolean, server_default="TRUE")

@@ -15,3 +15,6 @@ class ProductRes(Product):
 
     class Config:
         orm_mode = True
+    
+class ProductImage(BaseModel):
+    image_url: str
