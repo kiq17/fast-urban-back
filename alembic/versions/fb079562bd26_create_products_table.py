@@ -23,7 +23,7 @@ def upgrade() -> None:
         sa.Column("preco", sa.Float, nullable=False),
         sa.Column("quantidade", sa.Integer, nullable=False),
         sa.Column("a_venda", sa.Boolean, server_default="TRUE"),
-        sa.Column("image_url", sa.String, nullable=False),
+        sa.Column("coverImg", sa.String, nullable=False),
         sa.Column("created_at", sa.TIMESTAMP(timezone=True), server_default=sa.text("now()")),
         sa.Column("update_at", sa.TIMESTAMP(timezone=True), server_default=sa.text("now()"))                
     )

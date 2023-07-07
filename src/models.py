@@ -22,7 +22,7 @@ class Product(Base):
     preco = Column(Float, nullable=False)
     quantidade = Column(Integer, nullable=False)
     a_venda = Column(Boolean, server_default="TRUE")
-    image_url = Column(String, nullable=False)
+    coverImg = Column(String, nullable=False)
     created_at = Column(TIMESTAMP(timezone=True), server_default=text("now()"))
     update_at = Column(TIMESTAMP(timezone=True), server_default=text("now()"))
 
@@ -36,7 +36,7 @@ class Order(Base):
 
     user = relationship("User")
 
-class ProductsImages():
+class ProductsImages(Base):
     __tablename__ = "products_images"
     
     id = Column(Integer, primary_key=True, nullable=False)
@@ -45,3 +45,11 @@ class ProductsImages():
     created_at = Column(TIMESTAMP(timezone=True), server_default=text("now()"))
 
     product = relationship("Product")
+
+class FavoriteProducts(Base):
+    __tablename__ = "favorite_products"
+
+    id = Column(Integer, primary_key=True, nullable=False)
+    user_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
+    product_id = Column(Integer, ForeignKey("products.id", ondelete="CASCADE"), nullable=False)
+    created_at = Column(TIMESTAMP(timezone=True), server_default=text("now()"))
