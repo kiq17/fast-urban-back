@@ -7,6 +7,7 @@ class Product(BaseModel):
     preco: float
     quantidade: int
     coverImg: str
+    categoria: str
 
 class ProductRes(Product):
     a_venda: bool

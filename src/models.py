@@ -24,6 +24,7 @@ class Product(Base):
     quantidade = Column(Integer, nullable=False)
     a_venda = Column(Boolean, server_default="TRUE")
     coverImg = Column(String, nullable=False)
+    categoria = Column(String, nullable=False)
     created_at = Column(TIMESTAMP(timezone=True), server_default=text("now()"))
     update_at = Column(TIMESTAMP(timezone=True), server_default=text("now()"))
 
