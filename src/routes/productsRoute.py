@@ -3,6 +3,7 @@ from ..schemas.productSchema import Product, ProductRes, ProductImage
 from sqlalchemy.orm import Session
 from ..database import get_db
 from .. import models
+from typing import List
 
 router = APIRouter(prefix="/products", tags=["products"])
 
@@ -27,3 +28,12 @@ def addImageToProduct(productId: int, productImg: ProductImage, db: Session = De
     db.commit()
 
     return {"message": "imagem adiciona ao produto"}
+
+@router.get("/{productId}/images", response_model=List[ProductImage])
+def images(productId: int, db: Session = Depends(get_db)):
+    productImgs = db.query(models.ProductsImages).filter(models.ProductsImages.product_id == productId).all()
+
+    if productImgs is None:
+        raise HTTPException(status_code=400, detail="Produto não encontrado")
+    
+    return productImgs
