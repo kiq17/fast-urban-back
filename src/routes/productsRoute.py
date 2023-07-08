@@ -7,6 +7,15 @@ from typing import List
 
 router = APIRouter(prefix="/products", tags=["products"])
 
+@router.get("/{page}/{perPage}", response_model=List[ProductRes])
+def getProducts(page: int, perPage: int, db: Session = Depends(get_db)):
+    if page == 1:
+        page = 0
+    produtcs = db.query(models.Product).limit(perPage).offset(page).all()
+
+    return produtcs
+
+
 @router.post("/", status_code=201, response_model=ProductRes)
 def createProduct(product: Product, db: Session = Depends(get_db)):
     p = models.Product(**product.dict())
