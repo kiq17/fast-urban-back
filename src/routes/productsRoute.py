@@ -7,7 +7,7 @@ from typing import List
 
 router = APIRouter(prefix="/products", tags=["products"])
 
-@router.get("/{page}/{perPage}", response_model=List[ProductRes])
+@router.get("/list/{page}/{perPage}", response_model=List[ProductRes])
 def getProducts(page: int, perPage: int, db: Session = Depends(get_db)):
     if page == 1:
         page = 0
@@ -25,7 +25,7 @@ def createProduct(product: Product, db: Session = Depends(get_db)):
 
     return p
 
-@router.post("/{productId}/image", status_code=201)
+@router.post("/image/{productId}", status_code=201)
 def addImageToProduct(productId: int, productImg: ProductImage, db: Session = Depends(get_db)):
     findProducut = db.query(models.Product).filter(models.Product.id == productId)
 
@@ -38,7 +38,7 @@ def addImageToProduct(productId: int, productImg: ProductImage, db: Session = De
 
     return {"message": "imagem adiciona ao produto"}
 
-@router.get("/{productId}/images", response_model=List[ProductImage])
+@router.get("/images/{productId}", response_model=List[ProductImage])
 def images(productId: int, db: Session = Depends(get_db)):
     productImgs = db.query(models.ProductsImages).filter(models.ProductsImages.product_id == productId).all()
 
