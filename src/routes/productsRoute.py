@@ -1,9 +1,10 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Body, Depends, HTTPException
 from ..schemas.productSchema import Product, ProductRes, ProductImage
 from sqlalchemy.orm import Session
 from ..database import get_db
 from .. import models
 from typing import List
+from datetime import datetime
 
 router = APIRouter(prefix="/products", tags=["products"])
 
@@ -46,3 +47,37 @@ def images(productId: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=400, detail="Produto não encontrado")
     
     return productImgs
+
+@router.put("/edit/{productId}", response_model=ProductRes)
+def editProduct(productId: int, product: dict = Body(...), db: Session = Depends(get_db)):
+    productQuery = db.query(models.Product).filter(models.Product.id == productId)
+
+    findProduct = productQuery.first()
+
+    if findProduct is None:
+        raise HTTPException(status_code=400, detail="Produto não encontrado")
+
+    dictProduct = findProduct.__dict__
+
+    # checando se valores existem
+    for keyP in product:
+        if dictProduct.get(keyP) is None:
+            raise HTTPException(status_code=400, detail="Elemento enviado é inválido")
+            
+    # transferindo valores
+    for key in dictProduct:
+        for keyB in product:
+            if keyB == key:
+                dictProduct[keyB] = product[key]
+
+    dictProduct.pop("id")
+    dictProduct["update_at"] = datetime.now()
+    
+    productQuery.update(dictProduct, synchronize_session=False)
+
+    db.commit()
+
+    return dictProduct
+            
+
+   
