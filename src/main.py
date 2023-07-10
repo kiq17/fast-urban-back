@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from .routes import usersRoute, ordersRoute, productsRoute
+from .routes import usersRoute, ordersRoute, productsRoute, favoriteRoute
 from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
@@ -19,4 +19,4 @@ app.add_middleware(
 app.include_router(usersRoute.router)
 app.include_router(ordersRoute.router)
 app.include_router(productsRoute.router)
-
+app.include_router(favoriteRoute.router)
